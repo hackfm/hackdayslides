@@ -30,9 +30,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://hackdaynode.last.fm/lfmc.js"></script>
     <script>
-       var QUEUE_TYPE = 'nowplaying';
-       // var QUEUE_TYPE = 'scrobbles';
-
        function eliminate_images(x)
        {
           if (x instanceof Array) {
@@ -53,9 +50,9 @@
           return x;
        }
 
-       function run_feed(obj, query)
+       function run_feed(obj, queue_type, query)
        {
-          var feed = new lfmc_Feed('').setType(QUEUE_TYPE);
+          var feed = new lfmc_Feed('').setType(queue_type);
           feed.query = JSON.parse(query);
           feed.onData(function (data) {
              for (var k in data) {
@@ -129,6 +126,10 @@
          line-height: 20px;
          letter-spacing: 0;
        }
+       a:link {text-decoration:none;}
+       a:visited {text-decoration:none;}
+       a:hover {text-decoration:underline;}
+       a:active {text-decoration:underline;}
     </style>
 
 <body style="display: none;">
@@ -157,7 +158,7 @@
                       <div id="top-tracks-uk" class="small"></div>
                       <script>
                          new lfmc_TopFeed('track')
-                             .setType(QUEUE_TYPE)
+                             .setType('scrobbles')
                              .setSize(5)
                              .filterByCountry('GB')
                              .onData(function(list) {
@@ -173,11 +174,11 @@
                       </script>
                 </li>
                 <li>
-                      What's the most-listened-to track world wide?
+                      What's the most-listened-to track world wide right now?
                       <div id="top-track-ww" class="small"></div>
                       <script>
                          new lfmc_TopFeed('track')
-                             .setType(QUEUE_TYPE)
+                             .setType('nowplaying')
                              .setSize(1)
                              .onData(function(list) {
                                 var e = $('#top-track-ww');
@@ -192,11 +193,11 @@
                       </script>
                 </li>
                 <li>
-                      What's the top indie artist in the US right now?
+                      What's the top indie artist in the US in the last hour?
                       <div id="top-indie-us" class="small"></div>
                       <script>
                          new lfmc_TopFeed('artist')
-                             .setType(QUEUE_TYPE)
+                             .setType('scrobbles')
                              .setSize(1)
                              .filterByCountry('US')
                              .filterByTag('Indie')
@@ -206,7 +207,7 @@
                                 for (var i = 0; i < list.length; i++)
                                 {
                                    var artist = list[i];
-                                   e.append('<div><b>' + artist.artist.name + '</b> <i>(' + artist.count.toString() + ' listeners)</i></div>');
+                                   e.append('<div><b>' + artist.artist.name + '</b> <i>(' + artist.count.toString() + ' scrobbles)</i></div>');
                                 }
                              })
                              .run();
@@ -224,7 +225,7 @@
                       <div id="top-coldplay" class="small"></div>
                       <script>
                          new lfmc_TopFeed('country')
-                             .setType(QUEUE_TYPE)
+                             .setType('scrobbles')
                              .setSize(4)
                              .filterByArtist('Coldplay')
                              .onData(function(list) {
@@ -233,7 +234,7 @@
                                 for (var i = 0; i < list.length; i++)
                                 {
                                    var country = list[i];
-                                   e.append('<div><b>' + (i+1).toString() + '. ' + country.country.fullname + '</b> <i>(' + country.count.toString() + ' listeners)</i></div>');
+                                   e.append('<div><b>' + (i+1).toString() + '. ' + country.country.fullname + '</b> <i>(' + country.count.toString() + ' scrobbles)</i></div>');
                                 }
                              })
                              .run();
@@ -244,7 +245,7 @@
                       <div id="user-beastie" class="usersmall"></div>
                       <script>
                          new lfmc_RecentFeed('user')
-                             .setType(QUEUE_TYPE)
+                             .setType('nowplaying')
                              .setSize(4)
                              .addExtraField('track')
                              .addExtraField('application')
@@ -269,7 +270,7 @@
                       <div id="user-friends" class="usersmall"></div>
                       <script>
                          new lfmc_RecentFeed('user')
-                             .setType(QUEUE_TYPE)
+                             .setType('nowplaying')
                              .setSize(4)
                              .addExtraField('track')
                              .filterByFriends('JoshWoodward')
@@ -283,6 +284,71 @@
                                              ? user.user.image.smallsquare.url
                                              : 'http://cdn.last.fm/flatness/catalogue/noimage/2/default_user_small.png';
                                    e.append('<div><b><img class="userimg" src="' + img + '"> ' + user.user.name + '</b> <i>listens to <b>' + user.track.title + '</b> by <b>' + user.track.artist.name + '</b></i></div>');
+                                }
+                             })
+                             .run();
+                      </script>
+                </li>
+            </ul>
+        </article>
+
+        <article>
+            <h3>cyclone — realtime feeds for now playing data (3)</h3>
+
+            <ul class="build">
+                <li>
+                      Which countries are *really* listening to Coldplay the most?
+                      <div id="top-rel-coldplay" class="small"></div>
+                      <script>
+                         var feed = new lfmc_Feed('').setType('scrobbles');
+                         feed.query = { "feed": {
+                                          "type": "top",
+                                          "relative": true,
+                                          "size": 5,
+                                          "field": "country"
+                                        },
+                                        "filter": [{"field": "artist", "value": "Coldplay"}]
+                                      };
+                         feed.onData(function(data) {
+                                var e = $('#top-rel-coldplay');
+                                e.empty();
+                                // e.append('<div>' + JSON.stringify(data, null, 2) + '</div>');
+                                list = data.top;
+                                for (var i = 0; i < list.length; i++)
+                                {
+                                   var item = list[i];
+                                   e.append('<div><b>' + (i+1).toString() + '. <a href=' + item[0].url + '>' + item[0].fullname + '</a></b> <i>(' + (100.0*item[1]/item[2]).toFixed(2) + '% of users)</i></div>');
+                                }
+                             })
+                             .run();
+                      </script>
+                </li>
+
+                <li>
+                      Which countries have the largest fraction of women listening to rock music?
+                      <div id="top-rel-rock-women" class="small"></div>
+                      <script>
+                         var feed = new lfmc_Feed('').setType('scrobbles');
+                         feed.query = { "feed": {
+                                          "type": "top",
+                                          "relative": true,
+                                          "size": 5,
+                                          "field": "country"
+                                        },
+                                        "filter": {
+                                          "main":      [{"field":"tag", "value":"rock"}, {"field":"sex", "value":"female"}],
+                                          "reference": [{"field":"sex", "value":"female"}]
+                                        }
+                                      };
+                         feed.onData(function(data) {
+                                var e = $('#top-rel-rock-women');
+                                e.empty();
+                                // e.append('<div>' + JSON.stringify(data, null, 2) + '</div>');
+                                list = data.top;
+                                for (var i = 0; i < list.length; i++)
+                                {
+                                   var item = list[i];
+                                   e.append('<div><b>' + (i+1).toString() + '. <a href=' + item[0].url + '>' + item[0].fullname + '</a></b> <i>(' + (100.0*item[1]/item[2]).toFixed(2) + '% of women listen to rock music)</i></div>');
                                 }
                              })
                              .run();
@@ -327,17 +393,27 @@
             <ul class="nobuild">
                 <li>
                 cyclone <i>events</i> are generated when a user starts
-                listening to a new track or an active event times out</li>
+                listening to a new track or scrobbles a track or an
+                active event times out</li>
                 <li>
                 events are either <i><b>add</b></i> or <i><b>remove</b></i></li>
+            </ul>
+        </article>
+
+        <article>
+            <h3>cyclone — event fields</h3>
+
+            <ul class="nobuild">
                 <li>
-                carry the following fields:
+                events carry the following fields:
                    <ul class="nobuild smaller">
                        <li><b>user</b>: user id</li>
                        <li><b>artist</b>: artist id of playing track</li>
                        <li><b>track</b>: track id of playing track</li>
                        <li><b>album</b>: album id of playing track</li>
                        <li><b>country</b>: country id of user</li>
+                       <li><b>age</b>: age of user</li>
+                       <li><b>sex</b>: sex of user</li>
                        <li><b>tag</b>: top tag of artist ("genre")</li>
                        <li><b>length</b>: length of track in seconds</li>
                        <li><b>playing_since</b>: timestamp of track start time</li>
@@ -347,6 +423,23 @@
                 </li>
                 <li>
                 new fields are extremely easy to add</li>
+            </ul>
+        </article>
+
+        <article>
+            <h3>cyclone — queues</h3>
+
+            <ul class="nobuild">
+                <li>
+                a cyclone queue keeps track of all active events</li>
+                <li>
+                there are two different types of queue currently supported by cyclone</li>
+                <li>
+                the <i><b>expiry set</b></i> queue expires items after an individual
+                lifetime; it is used for the <i>nowplaying</i> instance of cyclone</li>
+                <li>
+                the <i><b>fifo</b></i> queue expires items after a constant lifetime;
+                it is used for the <i>scrobbles</i> instance of cyclone</li>
             </ul>
         </article>
 
@@ -361,7 +454,15 @@
                   <pre class="jsonquery">{"feed":{"type":"count"}}</pre>
                   <pre class="jsonoutput noprettyprint" id="count-feed-demo"></pre>
                   <script>
-                     run_feed('count-feed-demo', '{"feed":{"type":"count"}}');
+                     run_feed('count-feed-demo', 'nowplaying', '{"feed":{"type":"count"}}');
+                  </script>
+               </blockquote>
+               <blockquote>
+                  <small><i>Count the number of all tracks scrobbled with the last hour:</i></small>
+                  <pre class="jsonquery">{"feed":{"type":"count"}}</pre>
+                  <pre class="jsonoutput noprettyprint" id="count-feed-demo-scrobbles"></pre>
+                  <script>
+                     run_feed('count-feed-demo-scrobbles', 'scrobbles', '{"feed":{"type":"count"}}');
                   </script>
                </blockquote>
             </p>
@@ -377,7 +478,7 @@
                     <pre class="jsonquery">{"feed":{"type":"top","size":3,"field":"tag"}}</pre>
                   <pre class="jsonoutput noprettyprint" id="top-feed-demo"></pre>
                   <script>
-                     run_feed('top-feed-demo', '{"feed":{"type":"top","size":3,"field":"tag"}}');
+                     run_feed('top-feed-demo', 'nowplaying', '{"feed":{"type":"top","size":3,"field":"tag"}}');
                   </script>
                 </blockquote>
             </p>
@@ -393,7 +494,7 @@
                     <pre class="jsonquery">{"feed":{"type":"set","field":"artist"}}</pre>
                   <pre class="jsonoutput noprettyprint" id="set-feed-demo"></pre>
                   <script>
-                     run_feed('set-feed-demo', '{"feed":{"type":"set","field":"artist"},"filter":[{"field":"tag","value":"black metal"}]}');
+                     run_feed('set-feed-demo', 'nowplaying', '{"feed":{"type":"set","field":"artist"},"filter":[{"field":"tag","value":"black metal"}]}');
                   </script>
                 </blockquote>
             </p>
@@ -421,7 +522,7 @@
                 <blockquote>
                   <pre class="jsonoutput noprettyprint" id="recent-feed-demo"></pre>
                   <script>
-                     run_feed('recent-feed-demo', '{"feed":{"type":"recent","size":2,"field":"user","extra_fields":["track","application"]},"filter":[{"field":"tag","value":"Jazz"}]}');
+                     run_feed('recent-feed-demo', 'nowplaying', '{"feed":{"type":"recent","size":2,"field":"user","extra_fields":["track","application"]},"filter":[{"field":"tag","value":"Jazz"}]}');
                   </script>
                 </blockquote>
             </p>
@@ -444,6 +545,25 @@
                <li>chains are limited to 5 filters (configurable)</li>
                <li>set filters are unlimited (and work nicely with 10,000 values)</li>
             </ul>
+        </article>
+
+        <article>
+            <h3>cyclone — feeds: relative top</h3>
+
+            <p>
+                <blockquote>
+                    <small><i>Top 3 countries with the most "rock" women:</i></small>
+                    <pre class="jsonquery">{"feed":{"type":"top","relative":true,"size":3,"field":
+"country"},"filter":{"main":[{"field":"tag","value":
+"rock"},{"field":"sex","value":"female"}],"reference":
+[{"field":"sex","value":"female"}]}}
+</pre>
+                  <pre class="jsonoutput noprettyprint" id="top-rel-feed-demo"></pre>
+                  <script>
+                     run_feed('top-rel-feed-demo', 'scrobbles', '{"feed":{"type":"top","relative":true,"size":3,"field":"country"},"filter":{"main":[{"field":"tag","value":"rock"},{"field":"sex","value":"female"}],"reference":[{"field":"sex","value":"female"}]}}');
+                  </script>
+                </blockquote>
+            </p>
         </article>
 
         <article>
@@ -647,6 +767,34 @@
         </article>
 
         <article>
+            <h3>cyclone — bootstrapping feeds</h3>
+
+            <ul class="nobuild">
+                <li>
+                    feeds need to be <i>bootstrapped</i>, i.e. all active events
+                    need to be filtered and pushed to the feed
+                </li>
+
+                <li>
+                    there can easily be more than a million active events, so
+                    bootstrapping is quite expensive
+                </li>
+
+                <li>
+                    both queue implementations use <i>bloom filters</i> to keep
+                    track of all event properties so that whole chunks of events
+                    can be ignored when filtering
+                </li>
+
+                <li>
+                    each feed may implement an optimised bootstrapping method,
+                    e.g. a <code>count</code> feed doesn't have to look at each
+                    individual event but can directly use the number of events
+                </li>
+            </ul>
+        </article>
+
+        <article>
             <h3>cyclone — current performance (1)</h3>
 
             <ul class="nobuild">
@@ -670,7 +818,7 @@
 
             <ul class="nobuild">
                        <li>parsing the query</li>
-                       <li>filtering all active events (about 100,000 at peak time) to bootstrap the feed</li>
+                       <li>filtering all active events (likely more than 1,000,000 at peak time for a one hour fifo) to bootstrap the feed</li>
                        <li>adding the feed node to the network (thereby creating all required distributor and aggregator nodes)</li>
                        <li>sending out an initial feed update</li>
             </ul>
