@@ -210,12 +210,13 @@ $.get(url, function (response) {
         <article>
             <h3>API Example #3: radio.similartracks</h3>
 
-            <code><pre>
+            <pre style='margin:20px;'>
 var url = API_ROOT + '?' + $.param({
     method: 'radio.similartracks',
     artist: 'Hello Mexico',
     track: 'In the Hands of Fools',
     limit: 5,
+    api_key: API_KEY,
     format: 'json'
 });
 $.get(url, function (r) {
@@ -225,7 +226,7 @@ $.get(url, function (r) {
         list += tr.creator + ' - ' + tr.title + '\n';
     }
     alert(list);
-});</pre></code>
+});</pre>
 
             <button id="api-example3">Run</button>
             <script>
