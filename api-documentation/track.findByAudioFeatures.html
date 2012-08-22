@@ -1,0 +1,58 @@
+<html>
+    <h1>track.findByAudioFeatures</h1>
+    <div class="wsdescription">
+        Find tracks whose sound matches one or more audio feature ranges.
+    </div>
+        <p class="sampleurl">
+    e.g. <a href="http://ws.audioscrobbler.com/2.0/?method=track.findbyaudiofeatures&filter[]=bpm:80:90&api_key=b25b959554ed76058ac220b7b2e0a026">http://ws.audioscrobbler.com/2.0/?method=track.findbyaudiofeatures&filter[]=bpm:80:90&api_key=...</a> 
+    </p>
+        <div id="wsdescriptor">
+        <h2>Params</h2>
+                 <span class="param">pagefilter[](Required): one or more audio feature ranges that the returned tracks must match. Each filter should take the form name:min:mix e.g. filter[]=bpm:80:90&filter[]=percussiveness:0.5:0.6 will search for tracks with a tempo of between 80 and 90 bpm, and with an estimated percussiveness value of between 0.5 and 0.6.</span><br>
+                 <p>
+bpm                 - estimated tempo in beats per minute<br>
+valence             - mood estimate on a scale from -1 (very sad) to 1 (very happy)<br>
+aggression          - mood estimate on a scale from -1 (peaceful) to 1 (aggressive)<br>
+avg_loudness        - average loudness in decibels relative to Full Scale i.e. the maximum volume that can be encoded<br>
+peak_loudness       - peak loudness in decibels relative to Full Scale i.e. the maximum volume that can be encoded<br>
+rhythmic_regularity - on a scale from from 0 (very varied rhythm) to 1 (very repetitive rhythm)<br>
+percussiveness      - on a scale from (no percussive sounds) to 1 (many percussive sounds)<br>
+noisiness           - the proportion of dirty/noisy sounds in the track, on a scale from 0 (very pure) to 1 (very dirty)<br>
+gearshift           - indicates likely presence of gearshift modulation: 0 (no gearshift), 1 (gearshift by a semitone), 2 (by a tone), -1 (not sure)<br>
+key                 - estimated key or mode: see <a href="key_legend.txt">here<a/> for an explanation of the possible values returned<br>
+harmonic_creativity - on a scale from 0 (no harmonic variety) to 1 (many chord changes)<br>
+smoothness          - rate of change of the melody and harmony parts on a scale from 0 (lots of fast changes) to 1 (very smooth)<br>
+danceability        - on a scale from 0 (not for dancing) to 1 (very easy to dance to)<br>
+energy              - estimated overall energy on a scale from 0 (very low energy) to 1 (very high energy)<br>
+punch               - on a scale from 0 (not at all punchy) to 1 (very punchy)<br>
+sound_creativity    - on a scale from 0 (very uniform timbre/instrumentation) to 1 (timbre changes a lot)<br>
+tuning              - estimated pitch standard in Hertz, typically A=400Hz<br>
+chordal_clarity     - estimate on a scale from 0 (very unclear harmonies) to 1 (very clear harmonies), key estimate should be accurate if this is high<br>
+tempo_instability   - how much the tempo varies over the track on a scale from 0 (certainly a drum machine) to 1 (no recognisable tempo at all)<br>
+rhythmic_intricacy  - on a continuous scale from 0 (ambient sounds) to 1 (highly complex), rock usually scores around 0.5<br>
+speed               - subjective speed on a scale from 0 (very slow) to 1 (very fast)<br>
+                    </p>
+                 <span class="param">api_key</span> (Required) : A Last.fm API key.<br />
+                     <h2>Auth</h2>
+            This is a <b>public</b> service.<br />
+                           This service does <b>not</b> require authentication.
+        
+                                    <h2>Errors</h2>
+            <ul>
+                                                            <li><span class="param">2</span> : Invalid service -This service does not exist</li>
+                        <li><span class="param">3</span> : Invalid Method - No method with that name in this package</li>
+                        <li><span class="param">4</span> : Authentication Failed - You do not have permissions to access the service</li>
+                        <li><span class="param">5</span> : Invalid format - This service doesn't exist in that format</li>
+                        <li><span class="param">6</span> : Invalid parameters - Your request is missing a required parameter</li>
+                        <li><span class="param">7</span> : Invalid resource specified</li>
+                        <li><span class="param">9</span> : Invalid session key - Please re-authenticate</li>
+                        <li><span class="param">10</span> : Invalid API key - You must be granted a valid key by last.fm</li>
+                        <li><span class="param">11</span> : Service Offline - This service is temporarily offline. Try again later.</li>
+                        <li><span class="param">13</span> : Invalid method signature supplied</li>
+                        <li><span class="param">16</span> : There was a temporary error processing your request. Please try again</li>
+                        <li><span class="param">26</span> : Suspended API key - Access for your account has been suspended, please contact Last.fm</li>
+                        </ul>
+            </div>
+</div>
+</div>
+</html>

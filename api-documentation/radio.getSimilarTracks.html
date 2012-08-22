@@ -1,0 +1,40 @@
+<html>
+    <h1>radio.getSimilarTracks</h1>
+    <div class="wsdescription">
+        Gets a playlist of tracks similar to the seed track
+    </div>
+        <p class="sampleurl">
+    e.g. <a href="http://ws.audioscrobbler.com/2.0/?method=radio.getsimilartracks&artist=radiohead&track=creep&api_key=b25b959554ed76058ac220b7b2e0a026">http://ws.audioscrobbler.com/2.0/?method=radio.getsimilartracks&artist=radiohead&track=creep&api_key=...</a> 
+    </p>
+        <div id="wsdescriptor">
+        <h2>Params</h2>
+                 <span class="param">artist</span> (Required (unless mbid)] : The artist name<br />
+                <span class="param">track</span> (Required (unless mbid)] : The track name<br />
+                <span class="param">mbid</span> (Optional) : The musicbrainz id for the track<br />
+                <span class="param">limit</span> (Optional) : Maximum number of similar tracks to return<br />
+                <span class="param">user</span> (Optional) : If Last.fm username used to provide context for the playlist, e.g. remove recently played tracks<br />
+                <span class="param">autocorrect[0|1]</span> (Optional) : Transform misspelled artist and track names into correct artist and track names, returning the correct version instead.  The corrected artist and track name will be returned in the response.<br />
+                 <span class="param">api_key</span> (Required) : A Last.fm API key.<br />
+                     <h2>Auth</h2>
+            This is a <b>public</b> service.<br />
+                           This service does <b>not</b> require authentication.
+        
+                                    <h2>Errors</h2>
+            <ul>
+                                                            <li><span class="param">2</span> : Invalid service -This service does not exist</li>
+                        <li><span class="param">3</span> : Invalid Method - No method with that name in this package</li>
+                        <li><span class="param">4</span> : Authentication Failed - You do not have permissions to access the service</li>
+                        <li><span class="param">5</span> : Invalid format - This service doesn't exist in that format</li>
+                        <li><span class="param">6</span> : Invalid parameters - Your request is missing a required parameter</li>
+                        <li><span class="param">7</span> : Invalid resource specified</li>
+                        <li><span class="param">9</span> : Invalid session key - Please re-authenticate</li>
+                        <li><span class="param">10</span> : Invalid API key - You must be granted a valid key by last.fm</li>
+                        <li><span class="param">11</span> : Service Offline - This service is temporarily offline. Try again later.</li>
+                        <li><span class="param">13</span> : Invalid method signature supplied</li>
+                        <li><span class="param">16</span> : There was a temporary error processing your request. Please try again</li>
+                        <li><span class="param">26</span> : Suspended API key - Access for your account has been suspended, please contact Last.fm</li>
+                        </ul>
+            </div>
+</div>
+</div>
+</html>

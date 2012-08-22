@@ -1,0 +1,73 @@
+0	A major
+1	Bb major
+2	B major
+3	C major
+4	C# major
+5	D major
+6	Eb major
+7	E major
+8	F major
+9	F# major
+10	G major
+11	Ab major
+12	A natural minor
+13	Bb natural minor
+14	B natural minor
+15	C natural minor
+16	C# natural minor
+17	D natural minor
+18	Eb natural minor
+19	E natural minor
+20	F natural minor
+21	F# natural minor
+22	G natural minor
+23	Ab natural minor
+24	A harmonic minor
+25	Bb harmonic minor
+26	B harmonic minor
+27	C harmonic minor
+28	C# harmonic minor
+29	D harmonic minor
+30	Eb harmonic minor
+31	E harmonic minor
+32	F harmonic minor
+33	F# harmonic minor
+34	G harmonic minor
+35	Ab harmonic minor
+36	A dorian
+37	Bb dorian
+38	B dorian
+39	C dorian
+40	C# dorian
+41	D dorian
+42	Eb dorian
+43	E dorian
+44	F dorian
+45	F# dorian
+46	G dorian
+47	Ab dorian
+48	A mixolydian
+49	Bb mixolydian
+50	B mixolydian
+51	C mixolydian
+52	C# mixolydian
+53	D mixolydian
+54	Eb mixolydian
+55	E mixolydian
+56	F mixolydian
+57	F# mixolydian
+58	G mixolydian
+59	Ab mixolydian
+60	A major (lydian)
+61	Bb major (lydian)
+62	B major (lydian)
+63	C major (lydian)
+64	C# major (lydian)
+65	D major (lydian)
+66	Eb major (lydian)
+67	E major (lydian)
+68	F major (lydian)
+69	F# major (lydian)
+70	G major (lydian)
+71	Ab major (lydian)
+72	 unknown
