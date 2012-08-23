@@ -322,12 +322,15 @@ var url = API_ROOT + '?' + $.param({
     filter: ['bpm:80:90', 'percussiveness:0.5:0.6'],
     format: 'json'
 });
-
 url = decodeURIComponent(url);
 
 $.get(url, function (r) {
-    var firstTrack = r.tracks.track[0];
-    alert(firstTrack.name + ' by ' + firstTrack.artist.name);
+    var list = '';
+    for (i = 0; i < Math.min(r.tracks.track.length, 5); ++i) {
+        var tr = r.tracks.track[i];
+        list += tr.creator + ' - ' + tr.title + '\n';
+    }
+    alert(list);
 });</pre>
 
             <button id="api-example5">Run</button>
@@ -344,8 +347,12 @@ $.get(url, function (r) {
                         url = decodeURIComponent(url);
 
                         $.get(url, function (r) {
-                            var firstTrack = r.tracks.track[0];
-                            alert(firstTrack.name + ' by ' + firstTrack.artist.name);
+                            var list = '';
+                            for (i = 0; i < Math.min(r.tracks.track.length, 5); ++i) {
+                                var tr = r.tracks.track[i];
+                                list += tr.artist.name + ' - ' + tr.name + '\n';
+                            }
+                            alert(list);
                         });
                     });
                 })(jQuery);
