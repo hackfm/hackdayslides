@@ -259,6 +259,116 @@ $.get(url, function (r) {
         </article>
 
         <article>
+            <h3>API — Audio Features</h3>
+
+            <ul>
+                <li>We analysed very nearly all of our streamable content for certain audio features</li>
+
+                <li>List of features includes:</li> 
+                <ul>
+                    <li>bpm</li>
+                    <li>loudness</li>
+                    <li>key</li>
+                    <li>speed</li>
+                    <li>tuning</li>
+                    <li>gearshift<li>
+                    <li><a href="api-documentation/track.getAudioFeatures.html">etc...</a></li>
+                </ul>
+            </ul>
+        </article>
+
+        <article>
+            <h3>API Example #4: track.getAudioFeatures</h3>
+
+            <pre style='margin:20px;'>
+var url = API_ROOT + '?' + $.param({
+    method: 'track.getAudioFeatures',
+    artist: 'Deadmau5',
+    track: 'Strobe',
+    api_key: API_KEY,
+    format: 'json'
+});
+$.get(url, function (r) {
+    alert(r.audiofeatures.bpm + ' BPM');
+});</pre>
+
+            <button id="api-example4">Run</button>
+            <script>
+                (function ($) {
+                    $('#api-example4').click(function () {
+                        var url = API_ROOT + '?' + $.param({
+                            method: 'track.getAudioFeatures',
+                            artist: 'Deadmau5',
+                            track: 'Strobe',
+                            api_key: API_KEY,
+                            format: 'json'
+                        });
+
+                        $.get(url, function (r) {
+                            alert(r.audiofeatures.bpm + ' BPM');
+                        });
+                    });
+                })(jQuery);
+            </script>
+        </article>
+
+        <article>
+            <h3>API Example #5: track.getAudioFeatures</h3>
+
+            <pre style='margin:20px;'>
+var url = API_ROOT + '?' + $.param({
+    method: 'track.findByAudioFeatures',
+    api_key: API_KEY,
+    filter: ['bpm:80:90', 'percussiveness:0.5:0.6'],
+    format: 'json'
+});
+
+url = decodeURIComponent(url);
+
+$.get(url, function (r) {
+    var firstTrack = r.tracks.track[0];
+    alert(firstTrack.name + ' by ' + firstTrack.artist.name);
+});</pre>
+
+            <button id="api-example5">Run</button>
+            <script>
+                (function ($) {
+                    $('#api-example5').click(function () {
+                        var url = API_ROOT + '?' + $.param({
+                            method: 'track.findByAudioFeatures',
+                            api_key: API_KEY,
+                            filter: ['bpm:80:90', 'percussiveness:0.5:0.6'],
+                            format: 'json'
+                        });
+
+                        url = decodeURIComponent(url);
+
+                        $.get(url, function (r) {
+                            var firstTrack = r.tracks.track[0];
+                            alert(firstTrack.name + ' by ' + firstTrack.artist.name);
+                        });
+                    });
+                })(jQuery);
+            </script>
+        </article>
+
+        <article>
+            <h3>Not-yet documented API endpoints</h3>
+
+            <ul>
+                <li><a href="api-documentation/track.getAudioFeatures.html">track.getAudioFeatures.html</a>: Get Key, BPM, loudness, etc. for a given track</li>
+                <li><a href="api-documentation/track.findByAudioFeatures.html">
+                    track.findByAudioFeatures.html
+                </a>: Find tracks by BPM, loudness, key, etc...</li>
+                
+                <li><a href="api-documentation/track.getPlaylinks.html">track.getPlaylinks.html</a></li>
+                <li><a href="api-documentation/album.getPlaylinks.html">album.getPlaylinks.html</a></li>
+                <li><a href="api-documentation/artist.getPlaylinks.html">artist.getPlaylinks.html</a></li>
+                <li><a href="api-documentation/radio.getSimilarTracks.html">radio.getSimilarTracks.html</a></li>
+            </ul>
+        </article>
+
+        <article>
             <h3>Realtime API</h3>
 
             <p>
